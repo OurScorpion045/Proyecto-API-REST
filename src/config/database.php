@@ -1,4 +1,9 @@
 <?php
+    namespace src\config;
+
+    use PDO;
+    use PDOException;
+
     class Database {
         private $host = "localhost";
         private $dbname = "apirest";
