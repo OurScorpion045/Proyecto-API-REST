@@ -1,6 +1,4 @@
 <?php
-    require_once './src/config/database.php';
-
     class UsuarioModel {
         private $usuarioId;
         private $usuario;
