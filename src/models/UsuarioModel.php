@@ -1,4 +1,7 @@
 <?php
+
+    namespace src\models;
+    
     class UsuarioModel {
         private $usuarioId;
         private $usuario;
