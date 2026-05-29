@@ -2,32 +2,86 @@
     namespace src\controllers;
 
     use src\models\UsuarioModel;
-    use src\config\Database;
-    use PDO;
     use PDOException;
 
     class UsuarioController {
-        private $database;
-        private $connection;
+        private $model;
 
         function __construct() {
-            $this->database = new Database();
-            $this->connection = $this->database->getConnection();
+            $this->model = new UsuarioModel();
         }
 
-        public function getAllUsuarios() {
-            $sql = "SELECT * FROM usuarios ORDER BY usuarioId DESC";
-            $stmt = $this->connection->prepare($sql);
-            $stmt->execute();
-            return $stmt->fetchAll();
+        function getAllUsuarios() {
+            try {
+                $result = $this->model->getAllUsuarios();
+                json_encode($result);
+            } catch (PDOException $e) {
+                json_encode(["message" => "Error al obtener usuarios " . $e->getMessage()]);
+            }
         }
 
-        public function getUsuariosById($id) {
-            $sql = "SELECT * FROM usuarios WHERE id = :id";
-            $stmt = $this->connection->prepare($sql);
-            $stmt->bindValue(":id", $id, PDO::PARAM_INT);
-            $stmt->execute();
-            return $stmt->fetch();
+        function getUsuarioById($idUsuario) {
+            if ($idUsuario) {
+                try {
+                    $result = $this->model->getUsuariosById($idUsuario);
+                    http_response_code(201);
+                    json_encode($result);
+                } catch (PDOException $e) {
+                    http_response_code(400);
+                    json_encode(["message" => "Error al obtener usuario " . $e->getMessage()]);
+                }
+            } else {
+                http_response_code(400);
+                json_encode(["message" => "Id no valido"]);
+            }
+        }
+
+        function insertUsuario($usuario, $password, $estado) {
+            if (empty($usuario) || empty($password) || empty($estado)) {
+                http_response_code(400);
+                json_encode(["message" => "Campos obligatorios vacios"]);
+            }
+
+            try {
+                $this->model->insertUsuario($usuario, $password, $estado);
+                http_response_code(201);
+                json_encode(["message" => "Usuario insertado correctamente"]);
+            } catch (PDOException $e) {
+                http_response_code(400);
+                json_encode(["message" => "Error al insertar usuario " . $e->getMessage()]);
+            }
+        }
+
+        function updateUsuario($idUsuario, $usuario, $password, $estado) {
+            if (empty($idUsuario) || empty($usuario) || empty($password) || empty($estado)) {
+                http_response_code(400);
+                json_encode(["message" => "Campos obligatorios vacios"]);
+            }
+
+            try {
+                $this->model->updateUsuario($idUsuario, $usuario, $password, $estado);
+                http_response_code(201);
+                json_encode(["message" => "Usuario actualizado correctamente"]);
+            } catch (PDOException $e) {
+                http_response_code(400);
+                json_encode(["message" => "Error al actualizar usuario " . $e->getMessage()]);
+            }
+        }
+
+        function deleteUsuario($idUsuario) {
+            if (empty($idUsuario)) {
+                http_response_code(400);
+                json_encode(["message" => "Id no valido"]);
+            }    
+        
+        try {
+            $this->model->deleteUsuario($idUsuario);
+            http_response_code(201);
+            json_encode(["message" => "Usuario eliminado"]);
+            } catch (PDOException $e) {
+                http_response_code(400);
+                json_encode(["message" => "Error al eliminar usuario"]);
+            }
         }
     }
 ?>
