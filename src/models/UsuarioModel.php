@@ -1,50 +1,57 @@
 <?php
 
     namespace src\models;
-    
+    use src\config\Database;
+    use PDO;
+
     class UsuarioModel {
-        private $usuarioId;
-        private $usuario;
-        private $password;
-        private $estado;
+        private $database;
+        private $connection;
 
-        function __construct($usuarioId = null, $usuario = "", $password = "", $estado = "") {
-            $this->usuarioId = $usuarioId;
-            $this->usuario = $usuario;
-            $this->password = $password;
-            $this->estado = $estado;
+        function __construct() {
+            $this->database = new Database();
+            $this->connection = $this->database->getConnection();
         }
 
-        public function getUsuarioId() {
-            return $this->usuarioId;
+        public function getAllUsuarios() {
+            $sql = "SELECT * FROM usuarios ORDER BY usuarioId DESC";
+            $stmt = $this->connection->prepare($sql);
+            $stmt->execute();
+            return $stmt->fetchAll();
         }
 
-        public function getUsuario() {
-            return $this->usuario;
+        public function getUsuariosById($idUsuario) {
+            $sql = "SELECT * FROM usuarios WHERE idUsuario = :idUsuario";
+            $stmt = $this->connection->prepare($sql);
+            $stmt->bindParam(":id", $idUsuario, PDO::PARAM_INT);
+            $stmt->execute();
+            return $stmt->fetch();
         }
 
-        public function getPassword() {
-            return $this->password;
+        public function insertUsuario($usuario, $password, $estado) {
+            $sql = "INSERT INTO usuarios(usuario, password, estado) VALUES (:usuario, :password, :estado)";
+            $stmt = $this->connection->prepare($sql);
+            $stmt->bindParam(":usuario", $usuario);
+            $stmt->bindParam(":password", $password);
+            $stmt->bindParam(":estado", $estado);
+            return $stmt->execute();
         }
 
-        public function getEstado() {
-            return $this->estado;
+        public function updateUsuario($idUsuario, $usuario, $password, $estado) {
+            $sql = "UPDATE usuarios SET usuario = :usuario, password = :password, estado = :estado WHERE idUsuario = :idUsuario";
+            $stmt = $this->connection->prepare($sql);
+            $stmt->bindParam(":idUsuario", $idUsuario, PDO::PARAM_INT);
+            $stmt->bindParam(":usuario", $usuario);
+            $stmt->bindParam(":password", $password);
+            $stmt->bindParam(":estado", $estado);
+            return $stmt->execute();
         }
 
-        public function setUsuarioId($nuevoUsuarioId) {
-            $this->usuarioId = $nuevoUsuarioId;
-        }
-
-        public function setUsuario($nuevoUsuario) {
-            $this->usuario = $nuevoUsuario;
-        }
-
-        public function setPassword($nuevoPassword) {
-            $this->password = $nuevoPassword;
-        }
-
-        public function setEstado($nuevoEstado) {
-            $this->estado = $nuevoEstado;
+        public function deleteUsuario($idUsuario) {
+            $sql = "DELETE FROM usuarios WHERE idUsuario = :idUsuario";
+            $stmt = $this->connection->prepare($sql);
+            $stmt->bindParam(":idUsuario", $idUsuario, PDO::PARAM_INT);
+            return $stmt->execute();
         }
     }
 ?>
