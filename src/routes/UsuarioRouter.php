@@ -10,7 +10,7 @@
 
     $resourceIndex = array_search("usuarios", $uri);
 
-    if ($resourceIndex == false) {
+    if ($resourceIndex === false) {
         http_response_code(400);
         echo json_encode(["message" => "Ruta no encontrada"]);
         exit;
@@ -24,8 +24,9 @@
             case "GET":
                 if ($id) {
                     $controller->getUsuarioById($id);
+                } else {
+                    $controller->getAllUsuarios();
                 }
-                $controller->getAllUsuarios();
                 break;
             case "POST":
                 $data = json_decode(file_get_contents("php://input"), true);
