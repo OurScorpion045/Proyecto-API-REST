@@ -12,7 +12,7 @@
 
     if ($resourceIndex == false) {
         http_response_code(400);
-        json_encode(["message" => "Ruta no encontrada"]);
+        echo json_encode(["message" => "Ruta no encontrada"]);
         exit;
     }
 
@@ -39,7 +39,7 @@
                 $data = json_decode(file_get_contents("php://input"), true);
                 if (!$id) {
                     http_response_code(400);
-                    json_encode(["message" => "Error, id no encontrado"]);
+                    echo json_encode(["message" => "Error, id no encontrado"]);
                     exit;
                 }
 
@@ -53,17 +53,17 @@
             case "DELETE":
                 if (!$id) {
                     http_response_code(400);
-                    json_encode(["error" => "Error, id no encontrado"]);
+                    echo json_encode(["error" => "Error, id no encontrado"]);
                 }
                 $controller->deleteUsuario($id);
                 break;
             default:
                 http_response_code(405);
-                json_encode(["error" => "Metodo no permitido"]);
+                echo json_encode(["error" => "Metodo no permitido"]);
                 break;
         }
     } else {
         http_response_code(404);
-        json_encode(["error" => "Ruta no encontrada"]);
+        echo json_encode(["error" => "Ruta no encontrada"]);
     }
 ?>
