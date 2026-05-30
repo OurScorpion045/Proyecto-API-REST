@@ -8,6 +8,7 @@
         http_response_code(200);
         exit();
     }
-
+    
     require_once "./autoload.php";
+    
 ?>
