@@ -1,6 +1,5 @@
 <?php
     namespace src\controllers;
-
     use src\models\UsuarioModel;
     use PDOException;
 
