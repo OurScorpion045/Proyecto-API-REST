@@ -15,4 +15,5 @@
 
     require_once "./autoload.php";
     require_once "./src/routes/UsuarioRouter.php";
+    require_once "./src/routes/PacienteRouter.php";
 ?>
