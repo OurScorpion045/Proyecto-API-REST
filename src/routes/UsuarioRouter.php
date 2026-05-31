@@ -11,7 +11,7 @@
     $resourceIndex = array_search("usuarios", $uri);
 
     if ($resourceIndex === false) {
-        http_response_code(400);
+        http_response_code(404);
         echo json_encode(["message" => "Ruta no encontrada"]);
         exit;
     }

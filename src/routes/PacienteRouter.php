@@ -12,7 +12,8 @@
 
     if ($resourceIndex === false) {
         http_response_code(404);
-        echo json_encode(["error" => "Ruta no encontrada"]);
+        echo json_encode(["message" => "Ruta no encontrada"]);
+        exit;
     }
 
     $id = $uri[$resourceIndex + 1] ?? null;
