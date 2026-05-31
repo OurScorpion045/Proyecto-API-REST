@@ -77,5 +77,20 @@
                 echo json_encode(["message" => "Id no valido"]);
             }
         }
+
+        public function deletePaciente($id) {
+            if ($id) {
+                try {
+                    http_response_code(200);
+                    $this->model->deletePaciente($id);
+                    echo json_encode(["message" => "Paciente eliminado correctamente"]);
+                } catch (PDOException $e) {
+                    echo json_encode(["message" => "Error al eliminar paciente " . $e->getMessage()]);
+                }
+            } else {
+                http_response_code(404);
+                echo json_encode(["message" => "Id no valido"]);
+            }
+        }
     }
 ?>
