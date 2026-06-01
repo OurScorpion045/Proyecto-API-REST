@@ -15,7 +15,7 @@
                 $result = $this->model->getAllUsuarios();
                 echo json_encode($result);
             } catch (PDOException $e) {
-                echo json_encode(["message" => "Error al obtener usuarios " . $e->getMessage()]);
+                echo json_encode(["message" => "Error al obtener usuarios "]);
             }
         }
 
@@ -27,7 +27,7 @@
                     echo json_encode($result);
                 } catch (PDOException $e) {
                     http_response_code(400);
-                    echo json_encode(["message" => "Error al obtener usuario " . $e->getMessage()]);
+                    echo json_encode(["message" => "Error al obtener usuario "]);
                 }
             } else {
                 http_response_code(400);
@@ -41,13 +41,15 @@
                 echo json_encode(["message" => "Campos obligatorios vacios"]);
             }
 
+            $passwordEncripted = password_hash($password, PASSWORD_DEFAULT);
+
             try {
-                $this->model->insertUsuario($usuario, $password, $estado);
+                $this->model->insertUsuario($usuario, $passwordEncripted, $estado);
                 http_response_code(201);
                 echo json_encode(["message" => "Usuario insertado correctamente"]);
             } catch (PDOException $e) {
                 http_response_code(400);
-                echo json_encode(["message" => "Error al insertar usuario " . $e->getMessage()]);
+                echo json_encode(["message" => "Error al insertar usuario"]);
             }
         }
 
@@ -63,7 +65,7 @@
                 echo json_encode(["message" => "Usuario actualizado correctamente"]);
             } catch (PDOException $e) {
                 http_response_code(400);
-                echo json_encode(["message" => "Error al actualizar usuario " . $e->getMessage()]);
+                echo json_encode(["message" => "Error al actualizar usuario "]);
             }
         }
 
