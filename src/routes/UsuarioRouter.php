@@ -8,63 +8,50 @@
     $method = $_SERVER['REQUEST_METHOD'];
     $uri = explode('/', trim($_SERVER['REQUEST_URI'], '/'));
 
-    $resourceIndex = array_search("usuarios", $uri);
-
-    if ($resourceIndex === false) {
-        http_response_code(404);
-        echo json_encode(["message" => "Ruta no encontrada"]);
-        exit;
-    }
-
-    $resource = $uri[$resourceIndex];
-    $id = $uri[$resourceIndex + 1] ?? null;
+    $id = end($uri);
     
-    if ($resource === "usuarios") {
-        switch ($method) {
-            case "GET":
-                if ($id) {
-                    $controller->getUsuarioById($id);
-                } else {
-                    $controller->getAllUsuarios();
-                }
-                break;
-            case "POST":
-                $data = json_decode(file_get_contents("php://input"), true);
-                $controller->insertUsuario(
-                    $data["usuario"],
-                    $data["password"],
-                    $data["estado"]
-                );
-                break;
-            case "PUT":
-                $data = json_decode(file_get_contents("php://input"), true);
-                if (!$id) {
-                    http_response_code(400);
-                    echo json_encode(["message" => "Error, id no encontrado"]);
-                    exit;
-                }
+    switch ($method) {
+        case "GET":
+            if (is_numeric($id)) {
+                $controller->getUsuarioById($id);
+            } else {
+                $controller->getAllUsuarios();
+            }
+            break;
+        case "POST":
+            $data = json_decode(file_get_contents("php://input"), true);
+            $controller->insertUsuario(
+                $data["usuario"],
+                $data["password"],
+                $data["estado"]
+            );
+            break;
+        case "PUT":
+            $data = json_decode(file_get_contents("php://input"), true);
+            if (!is_numeric($id)) {
+                http_response_code(400);
+                echo json_encode(["message" => "Error, id no encontrado"]);
+                exit;
+            }
 
-                $controller->updateUsuario(
-                    $id,
-                    $data["usuario"],
-                    $data["password"],
-                    $data["estado"]
-                );
-                break;
-            case "DELETE":
-                if (!$id) {
-                    http_response_code(400);
-                    echo json_encode(["error" => "Error, id no encontrado"]);
-                }
-                $controller->deleteUsuario($id);
-                break;
-            default:
-                http_response_code(405);
-                echo json_encode(["error" => "Metodo no permitido"]);
-                break;
-        }
-    } else {
-        http_response_code(404);
-        echo json_encode(["error" => "Ruta no encontrada"]);
+            $controller->updateUsuario(
+                $id,
+                $data["usuario"],
+                $data["password"],
+                $data["estado"]
+            );
+            break;
+        case "DELETE":
+            if (!is_numeric($id)) {
+                http_response_code(400);
+                echo json_encode(["error" => "Error, id no encontrado"]);
+            }
+            $controller->deleteUsuario($id);
+            break;
+        default:
+            http_response_code(405);
+            echo json_encode(["error" => "Metodo no permitido"]);
+            break;
     }
+
 ?>
