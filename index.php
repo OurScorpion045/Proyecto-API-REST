@@ -14,6 +14,20 @@
     }
 
     require_once "./autoload.php";
-    require_once "./src/routes/UsuarioRouter.php";
-    require_once "./src/routes/PacienteRouter.php";
+    
+    $uri = explode("/", trim($_SERVER['REQUEST_URI'], "/"));
+    $resourceIndex = array_search("index.php", $uri);
+    $resource = $uri[$resourceIndex + 1];
+
+    switch ($resource) {
+        case "usuarios":
+            require_once "./src/routes/UsuarioRouter.php";
+            break;
+        case "pacientes":
+            require_once "./src/routes/PacienteRouter.php";
+            break;
+        default:
+            http_response_code(404);
+            echo json_encode(["message" => "Ruta no encontrada"]);
+    }
 ?>
