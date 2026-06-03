@@ -26,8 +26,12 @@
         case "pacientes":
             require_once "./src/routes/PacienteRouter.php";
             break;
+        case "citas":
+            require_once "./src/routes/CitaRouter.php";
+            break;
         default:
             http_response_code(404);
             echo json_encode(["message" => "Ruta no encontrada"]);
+            break;
     }
 ?>
