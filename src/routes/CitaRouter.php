@@ -19,7 +19,6 @@
         case "POST":
             $data = json_decode(file_get_contents("php://input"), true);
             $controller->insertCita(
-                $data["CitaId"],
                 $data["PacienteId"],
                 $data["Fecha"],
                 $data["HoraInicio"],
@@ -33,7 +32,6 @@
                 $data = json_decode(file_get_contents("php://input"), true);
                 $controller->updateCita(
                     $id,
-                    $data["CitaId"],
                     $data["PacienteId"],
                     $data["Fecha"],
                     $data["HoraInicio"],
