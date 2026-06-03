@@ -41,10 +41,22 @@
                     $data["Estado"],
                     $data["Motivo"]
                 );
-            break;
             } else {
                 http_response_code(400);
                 json_encode(["error" => "Id no valido"]);
             }
+            break;
+        case "DELETE":
+            if (is_numeric($id)) {
+                $controller->deleteCita($id);
+                break;
+            } else {
+                http_response_code(400);
+                echo json_encode(["error" => "Id no valiido"]);
+            }
+        default:
+            http_response_code(400);
+            json_encode(["Error" => "Id no encontrado"]);
+            break;
     }
 ?>
