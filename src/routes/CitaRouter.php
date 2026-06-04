@@ -47,11 +47,11 @@
         case "DELETE":
             if (is_numeric($id)) {
                 $controller->deleteCita($id);
-                break;
             } else {
                 http_response_code(400);
                 echo json_encode(["error" => "Id no valiido"]);
             }
+            break;
         default:
             http_response_code(400);
             json_encode(["Error" => "Id no encontrado"]);
