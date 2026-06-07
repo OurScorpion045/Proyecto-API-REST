@@ -1,0 +1,46 @@
+body {
+    background-image: url("./resources/fondo.png");
+    margin: 0;
+}
+
+.barra-nav {
+    background-color: #444b;
+    height: 8vh;
+}
+
+.button {
+    width: 150px;
+    height: 40px;
+    border: 1px solid #dedede; 
+    border-radius: 5px;
+    position: relative;
+    left: 1530px;
+    top: 17px;
+    margin: 0 15px;
+    background-color: #2afc;
+    color: #dedede;
+    font-size: large;
+    font-weight: bold;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+.button:hover {
+    background-color: #28fc;
+}
+
+.card-presentation {
+    position: relative;
+    left: 600px;
+    top: 250px;
+    border: 2px solid #dedede;
+    border-radius: 8px;
+    background-color: #2add;
+    width: 40vw;
+    height: 40vh;
+    display: grid;
+    text-align: center;
+    color: #dedede;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-weight: bold;
+    font-size: larger;
+}
