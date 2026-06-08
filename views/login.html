@@ -5,19 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
     <script src="login.js"></script>
+    <link rel="stylesheet" href="../styles.css">
 </head>
 <body>
-    <div class="card-login">
+    <div class="card-presentation">
         <form class="form-login">
             <label>
                 Usuario
-                <input type="text" placeholder="Ingresa tu usuario">
+                <input id="usuario" type="text" class="input" placeholder="Ingresa tu usuario">
                 <br><br>
             </label>
             <label>
                 Contraseña
-                <input type="password" placeholder="Ingresa tu contraseña">
+                <input id="password" type="password" class="input" placeholder="Ingresa tu contraseña">
             </label>
+            <br><br>
+            <input id="submit" type="submit" class="input" value="Iniciar Sesion">
+            <button id="cancelar" class="input">Cancelar</button>
         </form>
     </div>
 </body>
