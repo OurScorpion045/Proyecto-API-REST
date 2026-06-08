@@ -39,8 +39,15 @@ body {
     height: 40vh;
     display: grid;
     text-align: center;
+    align-content: center;
     color: #dedede;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     font-weight: bold;
     font-size: larger;
+}
+
+.input {
+    height: 30px;
+    width: 10vw;
+    border-radius: 5px;
 }
